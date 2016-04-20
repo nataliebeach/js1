@@ -13,14 +13,31 @@ var FavoriteThings = {
     FavoriteThings.elements.$thingList.append($listItem);
     FavoriteThings.elements.$newItemInput.val('');
     // send a post request to "/things"
-    // data: { newThing: thing.text }
+    $.ajax ({
+      url: "/things",
+      method: "post",
+      data: {
+        newThing: thing.text
+      }
+
+    })
   },
   markComplete: function(event){
     event.preventDefault();
     $(this).parent().addClass("completed");
+    var $listItem = FavoriteThings.render(FavoriteThings.elements.$toDoTemplate,thing);
     var thing = $(this).siblings(".todo-text").html()
     // send a patch request to /things/thing-text
-    // e.g. /things/
+    var url = "/things/" + thing;
+
+    $.ajax ({
+      url: url,
+      method: "patch",
+      data: {
+        completed: true
+      }
+    })
+
   },
   delete: function(event){
     event.preventDefault();

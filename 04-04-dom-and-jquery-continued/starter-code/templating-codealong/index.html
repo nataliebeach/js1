@@ -4,8 +4,21 @@
   <title>Templatin!</title>
 </head>
 <body>
-
+<script id="hello-world" type="text/x-handlebars-template">
+	<h1>{{helloTitle}}</h1>
+	<p>{{helloContent}}</p>
+	</script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js'></script>
+<script>
+	var source = $("#hello-world").html()
+	var template = Handlebars.compile(source)
+	var context = {
+		helloTitle: "Natalie",
+		helloContent: "Hello"
+	}
+	var compiledTemplate = template(context)
+	$("body").append(compiledTemplate)
+</script>
 </body>
 </html>

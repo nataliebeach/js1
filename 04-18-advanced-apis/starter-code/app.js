@@ -13,28 +13,42 @@ if (uriHash.length > 0) {
 
 
 function getImages(accessToken) {
-  // hide the sign in view
+  $('.sign-in-view').hide();
 
-
+  getCurrentLocation(function(position) {
+		var lat = position.coords.latitude;
+		var longi = position.coords.longitude;
+		console.log(lat)
+		console.log(longi)
+	
   // Determine the user's location. When the location position is obtained
 		// store latitude in a variable
 		// store longitude in a variable
 
-		// create a variable for the endpoing
-		var instagramEndpoint = ``; // <== store your url here in this string!
-
+		// create a variable for the endpoint
+		var instagramEndpoint = 'https://api.instagram.com/v1/media/search?lat=' + lat + '&lng=' + longi + '&access_token=' + accessToken; // <== store your url here in this string!
 		// now lets fetch the data images from instagram and handle the response
-		$ajax({
+		$.ajax({
 			url: instagramEndpoint,
-			method: '', // <=== Hmm, what type of request is this?,
+			method: 'GET', 
 			dataType: 'jsonp',
 			success: handleResponseSuccess // <== You'll have to implement this below
 		});
+		})
 }
 
 
 function handleResponseSuccess(response) {
 	var allData = response.data;
+	console.log(allData)
+  	allData.forEach(function(item){
+  		var imageUrl = item.images.standard_resolution.url;
+  		console.log(imageUrl)
+  		$('.images').append('<div class="image"></div>')
+  		$('.image').css("background-image", "url(" + imageUrl + ")");
+
+
+  	})
   // for each item in allData
   	// assign the item's image url to a variable imageUrl
   	// create a new jQuery div element
@@ -45,9 +59,8 @@ function handleResponseSuccess(response) {
 
 // This function fetches the current location of the user. It has one parameter
 // onLocation which is a callback function here's an example
-//	getCurrentLocation(function(position) {
-		// the position object has the current lat/long
-//	})
+
+
 function getCurrentLocation(onLocation) {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(onLocation);
@@ -55,3 +68,7 @@ function getCurrentLocation(onLocation) {
 		console.error("Geolocation is not supported by this browser.");
 	}
 }
+
+
+
+

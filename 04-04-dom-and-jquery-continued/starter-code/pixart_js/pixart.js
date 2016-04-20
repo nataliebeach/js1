@@ -1,5 +1,17 @@
 // Step 1
-//When I click the "Set Color" button, it should change the color of the "brush" box to the color I specify in the input field. (Hint: You will need to use event.preventDefault() somewhere in your code.)
+//When I click the "Set Color" button, it should change the color of the "brush" box to the color 
+//I specify in the input field. (Hint: You will need to use event.preventDefault() somewhere in your code.)
+var $button = $("#set-color");
+var $brush = $(".brush");
+var $input = $("#color-field");
+var $form = $("#form");
+var $body = $("body");
+
+$form.on("submit", function(e){
+	e.preventDefault();
+	var color = $input.val();
+	$brush.css("background", color);
+})
 
 // Step 2
 //The same thing should happen when I press the enter key from inside the input field
@@ -8,10 +20,19 @@
 //Create 20 divs of the "square" class and append them to the body
 //Hint: use .append()
 
+for (var i=0; i<8000; i++) {
+	$body.append("<div class ='square'></div>");
+}
+
+
 // Step 4
 //Add functionality so that when I click on each "square", it changes the color of that individual square to "green"
 //Hint: either add the event listener while creating the squares, or listen for events on the body element
 
+$(".square").on("mouseover", function (event) {
+	var $square = $(event.target); //refers to the thing that triggered this event
+	$square.css('background', $input.val());
+})
 // Step 5
 //Modify your code so that when I click on each "square", it changes to the color I set using my input instead of "green" every time.
 
